@@ -1,0 +1,4 @@
+project_id = "ovuifjgbeaeaqxlioqwj"
+
+[functions.super-responder]
+verify_jwt = true

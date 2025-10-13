@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 220 27% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 26% 9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 26% 9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 250 90% 65%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 250 85% 75%;
+
+    --secondary: 220 26% 14%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 26% 14%;
+    --muted-foreground: 215 16% 65%;
+
+    --accent: 189 94% 60%;
+    --accent-foreground: 210 40% 98%;
+    --accent-glow: 189 94% 70%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 26% 18%;
+    --input: 220 26% 14%;
+    --ring: 250 90% 65%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(250 90% 65%) 0%, hsl(270 90% 70%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(189 94% 60%) 0%, hsl(250 90% 65%) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(220 27% 6%) 0%, hsl(220 27% 4%) 100%);
+
+    /* Shadows */
+    --shadow-glow: 0 0 40px hsl(250 90% 65% / 0.3);
+    --shadow-accent-glow: 0 0 30px hsl(189 94% 60% / 0.3);
+    --shadow-card: 0 8px 32px hsl(220 27% 4% / 0.4);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 220 27% 6%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 250 90% 65%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 220 26% 14%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 26% 18%;
+    --sidebar-ring: 250 90% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background: linear-gradient(180deg, hsl(220 27% 6%) 0%, hsl(220 27% 4%) 100%);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .glow-text {
+    text-shadow: 0 0 20px hsl(var(--primary-glow) / 0.5);
+  }
+
+  .glow-border {
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.1);
+  }
+
+  .glass-card {
+    background: hsl(var(--card) / 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border));
+  }
+
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--primary) / 0.5);
+    }
+  }
+
+  .agent-step {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .agent-step::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 2rem;
+    bottom: -1rem;
+    width: 2px;
+    background: linear-gradient(180deg, hsl(var(--primary)) 0%, transparent 100%);
+  }
+
+  .agent-step:last-child::before {
+    display: none;
+  }
+}
