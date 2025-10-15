@@ -6,7 +6,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Globe, Newspaper, FileText, Calendar } from "lucide-react";
+import {
+  Globe,
+  Newspaper,
+  FileText,
+  Calendar,
+  DollarSign,
+  Users,
+  Link as LinkIcon,
+} from "lucide-react";
 
 interface ReportCardProps {
   report: {
@@ -17,6 +25,8 @@ interface ReportCardProps {
       description?: string;
       foundedYear?: string;
       industry?: string;
+      headquarters?: string;
+      keyPeople?: string[];
     };
     newsData?: {
       articles?: Array<{
@@ -26,6 +36,20 @@ interface ReportCardProps {
         summary?: string;
       }>;
     };
+    financialData?: {
+      revenue?: string;
+      employees?: string;
+      marketCap?: string;
+      stockSymbol?: string;
+    };
+    competitors?: Array<{
+      name?: string;
+      description?: string;
+    }>;
+    sourceLinks?: Array<{
+      title?: string;
+      url?: string;
+    }>;
     summary?: string;
     createdAt?: string;
   };
@@ -34,6 +58,9 @@ interface ReportCardProps {
 const ReportCard = ({ report }: ReportCardProps) => {
   const website = report.websiteData || {};
   const news = report.newsData?.articles || [];
+  const financials = report.financialData || {};
+  const competitors = report.competitors || [];
+  const sources = report.sourceLinks || [];
   const summaryText = report.summary || "No summary available.";
   const createdAt = report.createdAt
     ? new Date(report.createdAt).toLocaleDateString()
@@ -85,7 +112,93 @@ const ReportCard = ({ report }: ReportCardProps) => {
               <span className="text-muted-foreground text-sm">Industry</span>
               <p className="font-semibold">{website.industry || "N/A"}</p>
             </div>
+            <div>
+              <span className="text-muted-foreground text-sm">
+                Headquarters
+              </span>
+              <p className="font-semibold">
+                {website.headquarters || "Unknown"}
+              </p>
+            </div>
           </div>
+          {website.keyPeople && website.keyPeople.length > 0 && (
+            <div>
+              <span className="text-muted-foreground text-sm">Key People</span>
+              <ul className="list-disc list-inside text-foreground">
+                {website.keyPeople.map((person, index) => (
+                  <li key={index}>{person}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Financial Data */}
+      <Card className="glass-card border-border hover-lift">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
+              <DollarSign className="w-4 h-4 text-green-500" />
+            </div>
+            Financial Overview
+          </CardTitle>
+          <CardDescription>Key company financial details</CardDescription>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div>
+            <span className="text-muted-foreground text-sm">Revenue</span>
+            <p className="font-semibold">{financials.revenue || "Unknown"}</p>
+          </div>
+          <div>
+            <span className="text-muted-foreground text-sm">Employees</span>
+            <p className="font-semibold">{financials.employees || "Unknown"}</p>
+          </div>
+          <div>
+            <span className="text-muted-foreground text-sm">Market Cap</span>
+            <p className="font-semibold">{financials.marketCap || "Unknown"}</p>
+          </div>
+          <div>
+            <span className="text-muted-foreground text-sm">Stock Symbol</span>
+            <p className="font-semibold">
+              {financials.stockSymbol || "Unknown"}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Competitors */}
+      <Card className="glass-card border-border hover-lift">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <Users className="w-4 h-4 text-blue-500" />
+            </div>
+            Competitors
+          </CardTitle>
+          <CardDescription>Rivals and similar companies</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {competitors.length > 0 ? (
+            <ul className="space-y-2">
+              {competitors.map((comp, index) => (
+                <li key={index}>
+                  <p className="font-semibold text-foreground">
+                    {comp.name || "Unnamed competitor"}
+                  </p>
+                  {comp.description && (
+                    <p className="text-muted-foreground text-sm">
+                      {comp.description}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-muted-foreground italic">
+              No competitors listed.
+            </p>
+          )}
         </CardContent>
       </Card>
 
@@ -128,6 +241,43 @@ const ReportCard = ({ report }: ReportCardProps) => {
             <p className="text-muted-foreground text-sm italic">
               No news articles found.
             </p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Source Links */}
+      <Card className="glass-card border-border hover-lift">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
+              <LinkIcon className="w-4 h-4 text-purple-500" />
+            </div>
+            Sources & References
+          </CardTitle>
+          <CardDescription>AI used these information sources</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {sources.length > 0 ? (
+            <ul className="list-disc list-inside text-foreground space-y-1">
+              {sources.map((src, index) => (
+                <li key={index}>
+                  {src.url ? (
+                    <a
+                      href={src.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      {src.title || src.url}
+                    </a>
+                  ) : (
+                    src.title || "Unnamed source"
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-muted-foreground italic">No sources listed.</p>
           )}
         </CardContent>
       </Card>
