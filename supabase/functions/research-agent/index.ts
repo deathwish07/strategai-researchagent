@@ -76,7 +76,7 @@ Provide a well-structured summary covering:
 4. Key Insights`;
 
       const aiResponse = await fetch(
-        "https://your-ai-provider.com/v1/chat/completions",
+        "https://iit-internship2025-2.openai.azure.com/openai/responses?api-version=2025-04-01-preview",
       {
         method: "POST",
         headers: {
