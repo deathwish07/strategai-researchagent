@@ -2,12 +2,14 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+// ✅ Allowed origins for CORS
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",
   "http://localhost:8080",
-  "https://your-production-domain.com", // update this when you deploy
+  "https://your-production-domain.com", // update this before deploying
 ];
 
+// ✅ Default CORS headers
 const defaultCorsHeaders = {
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
@@ -21,94 +23,80 @@ serve(async (req) => {
   const allowedOrigin = ALLOWED_ORIGINS.includes(origin)
     ? origin
     : "http://localhost:5173";
+
   const corsHeaders = {
     ...defaultCorsHeaders,
     "Access-Control-Allow-Origin": allowedOrigin,
   };
 
-  // ✅ Respond early to preflight OPTIONS requests
+  // ✅ Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders, status: 200 });
   }
 
   try {
     const { companyName } = await req.json();
-    console.log("Generating research for:", companyName);
+    console.log("🔍 AI researching:", companyName);
 
-      const AI_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-      if (!AI_API_KEY) throw new Error("AI_API_KEY not configured");
+    const AI_API_KEY = Deno.env.get("AI_API_KEY");
+    if (!AI_API_KEY) throw new Error("AI_API_KEY not configured");
 
-    // Fake web + news data
-    const websiteData = {
-      domain: `${companyName.toLowerCase().replace(/\s+/g, "")}.com`,
-      description: `Official website and company information for ${companyName}`,
-      foundedYear: "2020",
-      industry: "Technology",
-    };
+    // 🧠 AI Prompt (self-research mode)
+    const researchPrompt = `
+You are a professional market research analyst. 
+Research the company "${companyName}" using your knowledge and reasoning. 
 
-    const newsData = {
-      articles: [
-        {
-          title: `${companyName} Announces Major Expansion`,
-          source: "Tech News Daily",
-          date: new Date().toISOString(),
-          summary: `${companyName} reveals plans for significant growth in the coming quarter.`,
-        },
-        {
-          title: `Industry Leaders React to ${companyName}'s Latest Innovation`,
-          source: "Business Insider",
-          date: new Date(Date.now() - 86400000).toISOString(),
-          summary: `${companyName} continues to push boundaries in their sector.`,
-        },
-      ],
-    };
+Write a complete and factual report covering:
+1. Company Overview — founding, location, products/services
+2. Recent Developments — any known updates, expansions, or changes
+3. Industry Standing — competitors, market position
+4. Key Insights — strengths, challenges, and future outlook
 
-    // ✅ AI summary
-    const summaryPrompt = `You are a professional research analyst. Create a comprehensive executive summary for ${companyName} based on the following information:
+If any detail is unknown, make a logical estimation but clearly state it.
+Respond in well-formatted markdown text.
+    `;
 
-Website Data: ${JSON.stringify(websiteData, null, 2)}
-Recent News: ${JSON.stringify(newsData, null, 2)}
-
-Provide a well-structured summary covering:
-1. Company Overview
-2. Recent Developments
-3. Industry Position
-4. Key Insights`;
-
-      const aiResponse = await fetch(
-        "https://iit-internship2025-2.openai.azure.com/openai/responses?api-version=2025-04-01-preview",
+    // ✅ Call Azure OpenAI Responses API (gpt-5-mini)
+    const aiResponse = await fetch(
+      "https://iit-internship2025-2.openai.azure.com/openai/responses?api-version=2025-04-01-preview",
       {
         method: "POST",
         headers: {
-            Authorization: `Bearer ${AI_API_KEY}`,
+          Authorization: `Bearer ${AI_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [
+          model: "gpt-5-mini",
+          input: [
             {
               role: "system",
               content:
-                "You are a professional research analyst creating executive summaries for companies.",
+                "You are a professional business research assistant skilled at analyzing companies and writing structured reports.",
             },
-            { role: "user", content: summaryPrompt },
+            { role: "user", content: researchPrompt },
           ],
+          max_output_tokens: 800,
         }),
       }
     );
 
+    const aiResponseText = await aiResponse.text();
     if (!aiResponse.ok) {
-      const text = await aiResponse.text();
-      console.error("AI API error:", aiResponse.status, text);
-      throw new Error(`AI API error: ${aiResponse.status}`);
+      console.error("❌ AI API error:", aiResponse.status, aiResponseText);
+      throw new Error(`AI API error: ${aiResponse.status}: ${aiResponseText}`);
     }
 
-    const aiData = await aiResponse.json();
-    const summary = aiData.choices?.[0]?.message?.content ?? "No summary generated";
+    let summary = "No summary generated";
+    try {
+      const aiData = JSON.parse(aiResponseText);
+      summary = aiData.output_text ?? summary;
+    } catch {
+      summary = aiResponseText;
+    }
 
-    // ✅ Supabase auth
+    // ✅ Supabase Authentication
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) throw new Error("No authorization header");
+    if (!authHeader) throw new Error("No authorization header provided");
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
@@ -119,15 +107,15 @@ Provide a well-structured summary covering:
     const {
       data: { user },
     } = await supabase.auth.getUser();
+
     if (!user) throw new Error("User not authenticated");
 
+    // ✅ Save AI research result to Supabase
     const { data: report, error } = await supabase
       .from("reports")
       .insert({
         user_id: user.id,
         company_name: companyName,
-        website_data: websiteData,
-        news_data: newsData,
         summary,
       })
       .select()
@@ -143,8 +131,6 @@ Provide a well-structured summary covering:
         report: {
           id: report.id,
           companyName,
-          websiteData,
-          newsData,
           summary,
           createdAt: report.created_at,
         },
