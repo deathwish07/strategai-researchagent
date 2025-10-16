@@ -30,10 +30,10 @@ const About = () => {
               in seconds.
             </p>
             <p className="text-muted-foreground">
-              Built with React, TypeScript, and powered by Google Gemini AI,
-              Strategai combines the latest in web technology with
-              state-of-the-art artificial intelligence to provide you with
-              professional-grade research capabilities.
+              Built with React, TypeScript, and powered by OpenAI, Strategai
+              combines the latest in web technology with state-of-the-art
+              artificial intelligence to provide you with professional-grade
+              research capabilities.
             </p>
           </div>
 
