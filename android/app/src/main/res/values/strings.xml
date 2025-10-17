@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">strategai</string>
+    <string name="title_activity_main">strategai</string>
+    <string name="package_name">com.strategai.app</string>
+    <string name="custom_url_scheme">com.strategai.app</string>
+</resources>
