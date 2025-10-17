@@ -5,7 +5,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const ALLOWED_ORIGINS = [
   "http://localhost:5173",
   "http://localhost:8080",
-  "https://your-production-domain.com", // 🔧 Replace with production URL
+  "https://strategai-researchagent.vercel.app", 
 ];
 
 const defaultCorsHeaders = {
