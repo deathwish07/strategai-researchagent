@@ -1,0 +1,86 @@
+{
+  "websiteData": {
+    "domain": "microsoft.com",
+    "description": "Multinational technology company developing software, cloud services, devices, and AI-driven products and platforms.",
+    "foundedYear": "1975",
+    "industry": "Technology / Software / Cloud computing / AI",
+    "headquarters": "Redmond, Washington, United States",
+    "keyPeople": [
+      "Satya Nadella (Chair & CEO)",
+      "Brad Smith (Vice Chair & President)",
+      "Amy Hood (Executive Vice President & CFO)",
+      "Bill Gates (Co-founder, Technology Advisor)"
+    ]
+  },
+  "newsData": {
+    "articles": [
+      {
+        "title": "Microsoft completes acquisition of Activision Blizzard",
+        "source": "Microsoft News / Major outlets",
+        "date": "2023-10-13",
+        "summary": "Microsoft completed its acquisition of Activision Blizzard, bringing major gaming franchises and the Activision Blizzard business into Microsoft's gaming segment and expanding its content for Xbox and cloud gaming."
+      },
+      {
+        "title": "Microsoft expands AI integrations (Copilot) across products",
+        "source": "Microsoft News / Industry coverage",
+        "date": "Unknown",
+        "summary": "Microsoft has been integrating AI-powered Copilot features across Windows, Office, and cloud services, and deepening partnerships and investments in AI research and products."
+      },
+      {
+        "title": "Microsoft reports fiscal results and continued cloud growth",
+        "source": "Microsoft Investor Relations / Financial press",
+        "date": "Unknown",
+        "summary": "Microsoft's periodic financial reports emphasize continued growth in Intelligent Cloud and Productivity & Business Processes, driven by Azure, enterprise software, and AI-related services."
+      }
+    ]
+  },
+  "financialData": {
+    "revenue": "Approx $212 billion (FY2023)",
+    "employees": "Approx 220,000 (2023)",
+    "marketCap": "Approx $2+ trillion (mid-2024 estimate)",
+    "stockSymbol": "MSFT"
+  },
+  "competitors": [
+    {
+      "name": "Apple",
+      "description": "Consumer electronics, software, and services company competing in devices, ecosystems, and services."
+    },
+    {
+      "name": "Alphabet (Google)",
+      "description": "Parent company of Google; competes in cloud services, advertising, AI, and productivity tools."
+    },
+    {
+      "name": "Amazon",
+      "description": "Large cloud provider (AWS), retail platform, and provider of consumer and enterprise services that overlap with Microsoft's cloud and AI offerings."
+    },
+    {
+      "name": "IBM",
+      "description": "Enterprise technology and services provider competing in cloud, AI, and enterprise software markets."
+    },
+    {
+      "name": "Oracle",
+      "description": "Enterprise software and cloud infrastructure provider competing in databases, enterprise applications, and cloud services."
+    }
+  ],
+  "sourceLinks": [
+    {
+      "title": "Microsoft — Official website",
+      "url": "https://www.microsoft.com"
+    },
+    {
+      "title": "Microsoft Newsroom",
+      "url": "https://news.microsoft.com"
+    },
+    {
+      "title": "Microsoft Investor Relations",
+      "url": "https://www.microsoft.com/en-us/investor"
+    },
+    {
+      "title": "SEC Filings (Microsoft)",
+      "url": "https://www.sec.gov/edgar/search/?q=Microsoft%20Corporation"
+    }
+  ],
+  "summary": "Microsoft Corporation is a leading multinational technology company founded in 1975, headquartered in Redmond, Washington. It operates across software, cloud computing (Azure), productivity tools (Microsoft 365), AI integrations (Copilot), devices, and gaming (including Activision Blizzard). Key leaders include Satya Nadella (CEO) and Amy Hood (CFO). Microsoft reported roughly $212 billion in revenue for fiscal 2023, employs around 220,000 people, and trades under the symbol MSFT. Major competitors include Apple, Alphabet (Google), Amazon, IBM, and Oracle.",
+  "id": "b2913376-ad71-4c11-bea9-5482e602c641",
+  "metadata": []
+}

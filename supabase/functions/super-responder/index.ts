@@ -5,7 +5,8 @@ const ALLOWED_ORIGINS = [
   "http://localhost:5173",
   "http://localhost:8080",
   "https://strategai-researchagent.vercel.app",
-  "capacitor://localhost"
+  "capacitor://localhost",
+  "https://localhost"
 ];
 const defaultCorsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
