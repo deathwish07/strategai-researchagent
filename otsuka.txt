@@ -1,0 +1,61 @@
+{
+  "websiteData": {
+    "domain": "https://www.otsuka-shokai.co.jp",
+    "description": "大塚商会 (Otsuka Corporation) is a Japanese company that provides IT services, system integration, cloud services, software and hardware sales, and office equipment and support to businesses across Japan.",
+    "foundedYear": "1961",
+    "industry": "Information Technology / System Integration / Office Equipment Sales",
+    "headquarters": "Bunkyo, Tokyo, Japan",
+    "keyPeople": [
+      "Unknown"
+    ]
+  },
+  "newsData": {
+    "articles": [
+      {
+        "title": "Unknown",
+        "source": "Unknown",
+        "date": "Unknown",
+        "summary": "Unknown"
+      }
+    ]
+  },
+  "financialData": {
+    "revenue": "Unknown",
+    "employees": "Unknown",
+    "marketCap": "Unknown",
+    "stockSymbol": "Unknown"
+  },
+  "competitors": [
+    {
+      "name": "NTT Data",
+      "description": "Major Japanese system integrator and IT services provider offering consulting, system integration, and managed services."
+    },
+    {
+      "name": "Fujitsu",
+      "description": "Large multinational IT company providing computing products, system integration, and managed services."
+    },
+    {
+      "name": "Ricoh",
+      "description": "Provider of office equipment, document solutions, and managed IT services competing in office systems and services."
+    },
+    {
+      "name": "Canon IT Solutions",
+      "description": "IT solutions and system integration arm of Canon, offering software and services to enterprise customers."
+    },
+    {
+      "name": "NEC",
+      "description": "Technology and integration company offering IT infrastructure, network solutions, and system integration services."
+    }
+  ],
+  "sourceLinks": [
+    {
+      "title": "Official website - 大塚商会",
+      "url": "https://www.otsuka-shokai.co.jp"
+    },
+    {
+      "title": "Wikipedia (Japanese) - 大塚商会",
+      "url": "https://ja.wikipedia.org/wiki/大塚商会"
+    }
+  ],
+  "summary": "大塚商会 (Otsuka Corporation) is a Japan-based IT services and office equipment company headquartered in Bunkyo, Tokyo, offering system integration, cloud and managed services, software and hardware sales, and business support solutions. Founded in 1961, it serves corporate customers across Japan. Specific recent news items, detailed financial figures, and named executive information were not provided in this result and are listed as Unknown."
+}

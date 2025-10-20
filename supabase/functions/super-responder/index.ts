@@ -21,16 +21,16 @@ serve(async (req)=>{
     ...defaultCorsHeaders,
     "Access-Control-Allow-Origin": allowedOrigin
   };
-  // ✅ Preflight support
+  // Preflight support
   if (req.method === "OPTIONS") {
     return new Response("ok", {
       headers: corsHeaders
     });
   }
-  // ✅ Health check support
+  // Health check support
   if (req.method === "GET") {
     return new Response(JSON.stringify({
-      status: "✅ Edge function running fine."
+      status: "Edge function running fine."
     }), {
       headers: {
         ...corsHeaders,
@@ -42,10 +42,10 @@ serve(async (req)=>{
     const body = await req.json();
     const companyName = body.companyName?.trim();
     if (!companyName) throw new Error("Missing companyName");
-    console.log("🔍 Researching company:", companyName);
+    console.log("Researching company:", companyName);
     const AI_API_KEY = Deno.env.get("AI_API_KEY");
     if (!AI_API_KEY) throw new Error("AI_API_KEY not configured");
-    // 🧠 JSON-Only Research Prompt
+    //JSON-Only Research Prompt
     const structuredPrompt = `
 You are a JSON-only research AI.
 Research "${companyName}" and return ONLY a JSON object in this structure:
@@ -63,7 +63,7 @@ If a field is unknown, use "Unknown".
 Never include markdown, text, or commentary.
 Return ONLY valid JSON.
 `;
-    // 🧩 AI request
+    //AI request
     const aiRes = await fetch("https://iit-internship2025-2.openai.azure.com/openai/responses?api-version=2025-04-01-preview", {
       method: "POST",
       headers: {
@@ -88,19 +88,19 @@ Return ONLY valid JSON.
       const errorBody = await aiRes.text();
       throw new Error(`AI API request failed with status ${aiRes.status}: ${errorBody}`);
     }
-    // 🧾 Log the raw AI response for debugging
+    //Log the raw AI response for debugging
     const rawText = await aiRes.text();
-    console.log("🧠 AI raw response:", rawText);
+    console.log("AI raw response:", rawText);
     let aiResponseJson;
     try {
       aiResponseJson = JSON.parse(rawText);
     } catch (err) {
-      console.error("⚠️ Failed to parse AI response as JSON:", err);
+      console.error("Failed to parse AI response as JSON:", err);
       aiResponseJson = {};
     }
     // Token usage tracking
     const usage = aiResponseJson.usage;
-    console.log("📊 Token Usage:", usage);
+    console.log("Token Usage:", usage);
     // Parse AI output text
     let parsed = {};
     try {
@@ -108,14 +108,14 @@ Return ONLY valid JSON.
       if (text) {
         parsed = JSON.parse(text);
       } else {
-        console.warn("⚠️ No text found in AI response, using fallback data.");
+        console.warn("No text found in AI response, using fallback data.");
       }
     } catch (err) {
-      console.error("⚠️ AI JSON parse error:", err);
+      console.error("AI JSON parse error:", err);
       console.log("Full AI response for debugging:", aiResponseJson);
     }
-    console.log("🧩 Parsed AI data sample:", parsed);
-    // 🧱 Fallbacks for incomplete data
+    console.log("Parsed AI data sample:", parsed);
+    // Fallbacks for incomplete data
     const websiteData = parsed.websiteData ?? {
       domain: `${companyName.toLowerCase().replace(/\s+/g, "")}.com`,
       description: `Official website for ${companyName}.`,
@@ -143,7 +143,7 @@ Return ONLY valid JSON.
     const competitors = parsed.competitors ?? [];
     const sourceLinks = parsed.sourceLinks ?? [];
     const summary = parsed.summary ?? "Summary not available.";
-    // 🧾 Auth & Supabase setup
+    //Auth & Supabase setup
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("Missing authorization header");
     const supabase = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_ANON_KEY") ?? "", {
@@ -168,8 +168,8 @@ Return ONLY valid JSON.
       tokens_used: usage?.total_tokens ?? 0
     }).select().single();
     if (error) throw error;
-    console.log("✅ Report stored:", report.id);
-    // ✅ Success response
+    console.log("Report stored:", report.id);
+    // Success response
     return new Response(JSON.stringify({
       success: true,
       report: {
@@ -191,7 +191,7 @@ Return ONLY valid JSON.
       }
     });
   } catch (err) {
-    console.error("❌ Edge Function Error:", err);
+    console.error("Edge Function Error:", err);
     return new Response(JSON.stringify({
       error: err.message ?? "Unknown error"
     }), {
